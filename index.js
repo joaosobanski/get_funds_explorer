@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer');
 
-(async () => {
+const get = async () => {
     const url = 'https://www.fundsexplorer.com.br/ranking';
 
     const browser = await puppeteer.launch();
@@ -30,7 +30,20 @@ const puppeteer = require('puppeteer');
                 let values = [];
                 for (var j = 0; j < objCells.length; j++) {
                     let text = objCells.item(j).innerHTML;
+
+                    if ((text + '').includes('<a href')) {
+
+                        let trecho;
+                        let pos1, pos2;
+                        pos1 = text.indexOf('">');
+                        pos2 = text.indexOf('</a>');
+
+                        trecho = text.substring(pos1 + 2, pos2);
+                        text = (trecho);
+                    }
+
                     values.push(text);
+
                 }
                 let d = { i, values };
                 data.push(d);
@@ -39,8 +52,18 @@ const puppeteer = require('puppeteer');
             return data;
         });
 
-        console.log(rawData);
     } catch (error) {
         console.log('error', error);
     }
-})();
+}
+get()
+
+const main = async () => {
+    console.log('foi')
+    setInterval(async () => {
+        await get()
+        console.log('foi')
+    }, [1000 * 60 * 1 * 60 * 24])
+}
+
+main()
