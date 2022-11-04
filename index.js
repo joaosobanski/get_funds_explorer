@@ -48,7 +48,7 @@ const get = async () => {
                 let d = { i, values };
                 data.push(d);
             }
-
+            console.log(data)
             return data;
         });
 
@@ -63,7 +63,7 @@ const main = async () => {
     setInterval(async () => {
         await get()
         console.log('foi')
-    }, [1000 * 60 * 1 * 60 * 24])
+    }, [1000 * 10])
 }
 
 main()
